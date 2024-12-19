@@ -77,7 +77,7 @@ abstract class Command implements CommandInterface
         return $this->arguments[$name];
     }
 
-    public function run(array $args = []): int
+    public function run(?array $args = null): int
     {
         $args ??= array_slice($_SERVER['argv'], 1);
         $this->configure();
