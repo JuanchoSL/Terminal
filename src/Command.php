@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace JuanchoSL\Terminal;
 
+use JuanchoSL\Exceptions\PreconditionRequiredException;
 use JuanchoSL\Terminal\Contracts\CommandInterface;
 use JuanchoSL\Terminal\Contracts\InputInterface;
 use JuanchoSL\Terminal\Entities\Input;
@@ -64,7 +65,14 @@ abstract class Command implements CommandInterface
         }
         return $input;
     }
-
+    protected function validate(InputInterface $vars)
+    {
+        foreach ($this->arguments as $name => $argument) {
+            if ($argument['argument'] == InputArgument::REQUIRED && !$vars->hasArgument($name)) {
+                throw new PreconditionRequiredException("The argument '{$name}' is missing");
+            }
+        }
+    }
     public function addArgument(string $name, InputArgument $required, InputOption $option): void
     {
         $this->arguments[$name] = [
@@ -82,6 +90,7 @@ abstract class Command implements CommandInterface
         $args ??= array_slice($_SERVER['argv'], 1);
         $this->configure();
         $input = $this->setRequest($args);
+        $this->validate($input);
         return $this->execute($input);
     }
 

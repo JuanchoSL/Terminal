@@ -20,4 +20,8 @@ class Input implements InputInterface
     {
         return $this->arguments[$name];
     }
+    public function hasArgument(string $name): bool
+    {
+        return array_key_exists($name, $this->arguments);
+    }
 }

@@ -9,4 +9,5 @@ interface InputInterface
 
     public function addArgument(string $name, mixed $value): void;
     public function getArgument(string $name): mixed;
+    public function hasArgument(string $name): bool;
 }
