@@ -1,0 +1,6 @@
+/src/UseCaseCommand.php
+/bin/
+/vendor/
+/.vscode/
+.env
+logs

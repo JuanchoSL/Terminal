@@ -1,0 +1,44 @@
+{
+    "name": "juanchosl/terminal",
+    "description": "Little methods collection in order to create console commands",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/JuanchoSL/Terminal",
+    "minimum-stability": "stable",
+    "keywords": [
+        "command",
+        "terminal"
+    ],
+    "authors": [
+        {
+            "name": "Juan Sánchez Lecegui",
+            "email": "JuanchoSL@hotmail.com",
+            "homepage": "https://github.com/JuanchoSL/"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-mbstring": "*",
+        "juanchosl/envvars": "^1.0",
+        "juanchosl/exceptions": "^1.0",
+        "juanchosl/logger": "^1.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "1.12.*",
+        "phpunit/phpunit": "9.6.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "JuanchoSL\\Terminal\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JuanchoSL\\Terminal\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "tests": "vendor/bin/phpunit --configuration phpunit.xml tests",
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon"
+    }
+}
