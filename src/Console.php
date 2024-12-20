@@ -41,7 +41,7 @@ class Console implements LoggerAwareInterface
         if (!array_key_exists($_SERVER['argv'][1], $this->commands)) {
             throw new DestinationUnreachableException(sprintf("The command '%s' is not defined", $_SERVER['argv'][1]));
         }
-        $this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 1));
+        exit($this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 1)));
     }
 
 }
