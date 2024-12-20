@@ -35,7 +35,9 @@ abstract class Command implements CommandInterface
         if (isset($this->logger)) {
             if ($this->debug || $log_level != 'debug') {
                 $context['memory'] = memory_get_usage();
-                $context['command'] = $this->getName();
+                if (!array_key_exists('command', $context)) {
+                    $context['command'] = implode(' ', $_SERVER['argv']);
+                }
                 $this->logger->log($log_level, $message, $context);
             }
         }
