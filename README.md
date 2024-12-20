@@ -116,10 +116,10 @@ If you enable the debug mode, all run actions will be traced into log
 {
     "arguments": [
         "delete",
-        "--folder=..\/files\/*.old*"
+        "--folder=..\/files\/*.old"
     ],
     "input": {
-        "folder": "..\/files\/*.old*"
+        "folder": "..\/files\/*.old"
     },
     "result": 0,
     "time": 0,
