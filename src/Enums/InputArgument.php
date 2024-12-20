@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JuanchoSL\Terminal\Enums;
 
-enum InputArgument
+enum InputArgument: string
 {
-    case OPTIONAL;
-    case REQUIRED;
+    case OPTIONAL = 'optional';
+    case REQUIRED = 'required';
 }

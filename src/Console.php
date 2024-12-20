@@ -10,9 +10,13 @@ use JuanchoSL\Exceptions\DestinationUnreachableException;
 class Console
 {
 
+    /**
+     * Summary of commands
+     * @var array<string, CommandInterface>
+     */
     protected array $commands = [];
 
-    public function add(CommandInterface $command)
+    public function add(CommandInterface $command): void
     {
         $this->commands[$command->getName()] = $command;
     }

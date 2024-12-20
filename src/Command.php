@@ -10,13 +10,43 @@ use JuanchoSL\Terminal\Contracts\InputInterface;
 use JuanchoSL\Terminal\Entities\Input;
 use JuanchoSL\Terminal\Enums\InputArgument;
 use JuanchoSL\Terminal\Enums\InputOption;
+use Psr\Log\LoggerAwareTrait;
 
 abstract class Command implements CommandInterface
 {
 
-    protected array $arguments = [];
+    use LoggerAwareTrait;
 
-    protected function setRequest($argv): Input
+    /**
+     * Summary of arguments
+     * @var array<string, array<string, InputArgument|InputOption>>
+     */
+    protected array $arguments = [];
+    protected bool $debug = false;
+
+    public function setDebug(bool $debug = false): static
+    {
+        $this->debug = $debug;
+        return $this;
+    }
+
+    protected function log(\Stringable|string $message, $log_level, $context = []): void
+    {
+        if (isset($this->logger)) {
+            if ($this->debug || $log_level != 'debug') {
+                $context['memory'] = memory_get_usage();
+                $context['command'] = $this->getName();
+                $this->logger->log($log_level, $message, $context);
+            }
+        }
+    }
+
+    /**
+     * Summary of setRequest
+     * @param array<int, string> $argv
+     * @return \JuanchoSL\Terminal\Entities\Input
+     */
+    protected function setRequest(array $argv): Input
     {
         $params = [];
         $key = null;
@@ -65,14 +95,22 @@ abstract class Command implements CommandInterface
         }
         return $input;
     }
-    protected function validate(InputInterface $vars)
+
+    protected function validate(InputInterface $vars): void
     {
         foreach ($this->arguments as $name => $argument) {
             if ($argument['argument'] == InputArgument::REQUIRED && !$vars->hasArgument($name)) {
-                throw new PreconditionRequiredException("The argument '{$name}' is missing");
+                $exception = new PreconditionRequiredException("The argument '{$name}' is missing");
+                $this->log($exception, 'error', [
+                    'exception' => $exception,
+                    'parameters' => $vars,
+                    'arguments' => $this->arguments
+                ]);
+                throw $exception;
             }
         }
     }
+
     public function addArgument(string $name, InputArgument $required, InputOption $option): void
     {
         $this->arguments[$name] = [
@@ -80,6 +118,7 @@ abstract class Command implements CommandInterface
             'option' => $option
         ];
     }
+
     public function getArgument(string $name): mixed
     {
         return $this->arguments[$name];
@@ -87,11 +126,20 @@ abstract class Command implements CommandInterface
 
     public function run(?array $args = null): int
     {
+        $time = time();
         $args ??= array_slice($_SERVER['argv'], 1);
         $this->configure();
         $input = $this->setRequest($args);
         $this->validate($input);
-        return $this->execute($input);
+        $result = $this->execute($input);
+        $this->log("Command: '{command}'", 'debug', [
+            'command' => implode(' ', $_SERVER['argv']),
+            'arguments' => $args,
+            'input' => $input,
+            'result' => $result,
+            'time' => time() - $time
+        ]);
+        return $result;
     }
 
     protected function write(mixed $values): void
@@ -104,8 +152,10 @@ abstract class Command implements CommandInterface
             echo (string) json_encode($values, JSON_PRETTY_PRINT);
         } elseif (is_object($values)) {
             var_dump($values);
-        } else {
+        } elseif (is_scalar($values)) {
             echo $values;
+        } else {
+            echo print_r($values, true);
         }
         echo PHP_EOL;
     }

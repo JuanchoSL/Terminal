@@ -17,7 +17,7 @@ interface CommandInterface
 
     /**
      * Execute the command
-     * @param array $arguments console parameters
+     * @param array<int, string> $arguments console parameters
      * @return int The execution result code
      */
     public function run(array $arguments = []): int;

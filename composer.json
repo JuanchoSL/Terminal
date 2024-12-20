@@ -19,11 +19,12 @@
     "require": {
         "php": "^7.1 || ^8.0",
         "ext-mbstring": "*",
-        "juanchosl/envvars": "^1.0",
         "juanchosl/exceptions": "^1.0",
-        "juanchosl/logger": "^1.1"
+        "psr/log": "3.0.*"
     },
     "require-dev": {
+        "juanchosl/logger": "^1.1",
+        "juanchosl/envvars": "^1.0",
         "phpstan/phpstan": "1.12.*",
         "phpunit/phpunit": "9.6.*"
     },
