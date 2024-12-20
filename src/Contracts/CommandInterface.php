@@ -6,9 +6,18 @@ namespace JuanchoSL\Terminal\Contracts;
 
 use JuanchoSL\Terminal\Enums\InputArgument;
 use JuanchoSL\Terminal\Enums\InputOption;
+use Psr\Log\LoggerAwareInterface;
 
-interface CommandInterface
+interface CommandInterface extends LoggerAwareInterface
 {
+
+    /**
+     * Enable or disable debug mode
+     * @param bool $debug True for enable, false otherwisw
+     * @return void
+     */
+    public function setDebug(bool $debug): static;
+
     /**
      * The command name in order to call from console
      * @return string The command name

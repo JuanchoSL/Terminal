@@ -6,9 +6,13 @@ namespace JuanchoSL\Terminal;
 
 use JuanchoSL\Terminal\Contracts\CommandInterface;
 use JuanchoSL\Exceptions\DestinationUnreachableException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
-class Console
+class Console implements LoggerAwareInterface
 {
+
+    use LoggerAwareTrait;
 
     /**
      * Summary of commands
@@ -16,8 +20,20 @@ class Console
      */
     protected array $commands = [];
 
+    protected bool $debug = false;
+
+    public function setDebug(bool $debug = false): static
+    {
+        $this->debug = $debug;
+        return $this;
+    }
+
     public function add(CommandInterface $command): void
     {
+        if (isset($this->logger)) {
+            $command->setLogger($this->logger);
+        }
+        $command->setDebug($this->debug);
         $this->commands[$command->getName()] = $command;
     }
     public function run(): void
