@@ -8,7 +8,6 @@ Little methods collection in order to create console commands
 
 ```bash
 composer require juanchosl/terminal
-composer update
 ```
 
 ## How to use

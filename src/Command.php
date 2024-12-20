@@ -61,7 +61,7 @@ abstract class Command implements CommandInterface
 
                 if (strpos($argument, '=') !== false) {
                     list($argument, $value) = explode('=', $argument);
-                } else {
+                } elseif (array_key_exists($argument, $this->arguments)) {
                     switch ($this->arguments[$argument]['option']) {
                         case InputOption::VOID:
                             $value = true;
