@@ -26,10 +26,10 @@ interface CommandInterface extends LoggerAwareInterface
 
     /**
      * Execute the command
-     * @param array<int, string> $arguments console parameters
+     * @param InputInterface|array<int, string>|null $arguments console parameters
      * @return int The execution result code
      */
-    public function run(array $arguments = []): int;
+    public function run(InputInterface|array|null $args = null): int;
 
     /**
      * Summary of addArgument

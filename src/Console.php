@@ -36,12 +36,12 @@ class Console implements LoggerAwareInterface
         $command->setDebug($this->debug);
         $this->commands[$command->getName()] = $command;
     }
-    public function run(): void
+    public function run(): int
     {
         if (!array_key_exists($_SERVER['argv'][1], $this->commands)) {
             throw new DestinationUnreachableException(sprintf("The command '%s' is not defined", $_SERVER['argv'][1]));
         }
-        exit($this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 1)));
+        return $this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 1));
     }
 
 }

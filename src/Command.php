@@ -48,7 +48,7 @@ abstract class Command implements CommandInterface
      * @param array<int, string> $argv
      * @return \JuanchoSL\Terminal\Entities\Input
      */
-    protected function setRequest(array $argv): Input
+    protected function setRequest(string ...$argv): Input
     {
         $params = [];
         $key = null;
@@ -126,12 +126,14 @@ abstract class Command implements CommandInterface
         return $this->arguments[$name];
     }
 
-    public function run(?array $args = null): int
+    public function run(InputInterface|array|null $args = null): int
     {
         $time = time();
-        $args ??= array_slice($_SERVER['argv'], 1);
         $this->configure();
-        $input = $this->setRequest($args);
+        if(is_null($args)){
+            $args = array_slice($_SERVER['argv'], 1);
+        }
+        $input = (is_array($args)) ? $this->setRequest(...$args): $args;
         $this->validate($input);
         $result = $this->execute($input);
         $this->log("Command: '{command}'", 'debug', [

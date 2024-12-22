@@ -69,6 +69,23 @@ Then, call the script from the console, passing the command name and the paramet
 ./entrypoint --origin=values.txt --destiny values.csv values.xml --copies 1 --clean
 ```
 
+If your system does not support call scripts with parameters, insert into your script the desired values as 
+- array of strings
+```php
+$command = new CopyCommand();
+$command->run(['--required_single', 'value', '--required_void', '--required_multi', 'a', 'b', 'c']);
+```
+- InputInterface element
+```php
+$input = new Input;
+$input->addArgument('required_single', 'value');
+$input->addArgument('required_void', null);
+$input->addArgument('required_multi', ['a', 'b', 'c']);
+
+$command = new CopyCommand();
+$command->run($input);
+```
+
 #### Create an App with multiple commands
 In our entrypoint script, we can declare some commands in order to use it with multiple purposes, using the name of the desired command as first parameter.
 Create a file and put the use case commands
@@ -88,6 +105,16 @@ Then, call the script from the console, passing the command name and the paramet
 ```bash
 ./entrypoint copy --origin=values.txt --destiny values.csv values.xml --copies 1 --clean
 ```
+
+#### Parameters format
+The parameter name needs to start with --, the can assign values from:
+- concat with an equals sign (--name=value)
+- put the value after parameter (--name value) 
+- if is a void parameter that don ned value, just write the parameter name (--void_parameter)
+- if is a multiple values parameter, use the name all times that you need pass a value or write the name and value multiple times as a single value
+    - --multiple=value1 --multiple=value2
+    - --multiple value1 --multiple value2
+    - --multiple value1 value2
 
 ## Debug
 The library implements the LoggerAwaitInterface, in order to indicate a PSR3 Logger for save errors or debug info. The loggers are used by commands, but if you have multiple commands from a Console App, can pass an unique log to Console class before insert Commands and the logger will be inserted into any Command used
