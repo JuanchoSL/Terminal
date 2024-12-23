@@ -116,6 +116,37 @@ The parameter name needs to start with --, the can assign values from:
     - --multiple value1 --multiple value2
     - --multiple value1 value2
 
+## Help
+
+### Available commands
+If you don't know the available commands configured into an entrypoint console app, write help for retrieve a list
+```bash
+$ ./bin/command.php help
+Available commands:
+- usecase
+
+```
+### Available arguments
+If you don't know the available arguments configured into a command console app, write help after command name for retrieve a list
+```bash
+$ ./bin/command.php usecase help
+Available arguments for usecase:
+- required_single: required,single
+- required_multi: required,multiple
+- required_void: optional,void
+
+```
+
+### Personalize help
+You can personalize your command help system overriding the protected function help, returning an integer, 0 for no errors
+```php
+    protected function help(): int
+    {
+        print_r($this->arguments);
+        return 0;
+    }
+```
+
 ## Debug
 The library implements the LoggerAwaitInterface, in order to indicate a PSR3 Logger for save errors or debug info. The loggers are used by commands, but if you have multiple commands from a Console App, can pass an unique log to Console class before insert Commands and the logger will be inserted into any Command used
 ```php
