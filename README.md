@@ -110,7 +110,7 @@ Then, call the script from the console, passing the command name and the paramet
 The parameter name needs to start with --, the can assign values from:
 - concat with an equals sign (--name=value)
 - put the value after parameter (--name value) 
-- if is a void parameter that don ned value, just write the parameter name (--void_parameter)
+- if is a void parameter that don't need value, just write the parameter name (--void_parameter)
 - if is a multiple values parameter, use the name all times that you need pass a value or write the name and value multiple times as a single value
     - --multiple=value1 --multiple=value2
     - --multiple value1 --multiple value2
