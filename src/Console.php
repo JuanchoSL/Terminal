@@ -38,10 +38,22 @@ class Console implements LoggerAwareInterface
     }
     public function run(): int
     {
+        if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] == 'help') {
+            $this->help();
+            exit;
+        }
         if (!array_key_exists($_SERVER['argv'][1], $this->commands)) {
             throw new DestinationUnreachableException(sprintf("The command '%s' is not defined", $_SERVER['argv'][1]));
         }
-        return $this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 1));
+        return $this->commands[$_SERVER['argv'][1]]->run(array_slice($_SERVER['argv'], 2));
     }
 
+    protected function help()
+    {
+        $response = "Available commands:" . PHP_EOL;
+        foreach (array_keys($this->commands) as $command) {
+            $response .= "- {$command}" . PHP_EOL;
+        }
+        echo $response;
+    }
 }

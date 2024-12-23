@@ -130,10 +130,17 @@ abstract class Command implements CommandInterface
     {
         $time = time();
         $this->configure();
-        if(is_null($args)){
+        if (is_null($args)) {
             $args = array_slice($_SERVER['argv'], 1);
         }
-        $input = (is_array($args)) ? $this->setRequest(...$args): $args;
+        if (is_array($args)) {
+            if (current($args) == 'help') {
+                return $this->help();
+            }
+            $input = $this->setRequest(...$args);
+        } else {
+            $input = $args;
+        }
         $this->validate($input);
         $result = $this->execute($input);
         $this->log("Command: '{command}'", 'debug', [
@@ -144,6 +151,15 @@ abstract class Command implements CommandInterface
             'time' => time() - $time
         ]);
         return $result;
+    }
+
+    protected function help(): int
+    {
+        $this->write(sprintf("Available arguments for %s:", $this->getName()));
+        foreach ($this->arguments as $name => $values) {
+            $this->write(sprintf("- %s: %s, %s", $name, $values['argument']->value, $values['option']->value));
+        }
+        return 0;
     }
 
     protected function write(mixed $values): void
