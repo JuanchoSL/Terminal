@@ -148,6 +148,7 @@ abstract class Command implements CommandInterface
             'arguments' => $args,
             'input' => $input,
             'result' => $result,
+            'cwd' => getcwd(),
             'time' => time() - $time
         ]);
         return $result;
@@ -159,6 +160,7 @@ abstract class Command implements CommandInterface
         foreach ($this->arguments as $name => $values) {
             $this->write(sprintf("- %s: %s, %s", $name, $values['argument']->value, $values['option']->value));
         }
+        $this->write(sprintf("Current working dir %s:", getcwd()));
         return 0;
     }
 
