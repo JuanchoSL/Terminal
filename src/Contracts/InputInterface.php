@@ -10,9 +10,9 @@ interface InputInterface
      * Set a value for a parameter
      * @param string $name The parameter name
      * @param mixed $value The parameter value
-     * @return void
+     * @return self The same Input object
      */
-    public function addArgument(string $name, mixed $value): void;
+    public function addArgument(string $name, mixed $value): static;
 
     /**
      * Retrieve the parameter value indicated with name

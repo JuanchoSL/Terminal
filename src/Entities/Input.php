@@ -15,9 +15,10 @@ class Input implements InputInterface, \JsonSerializable
      */
     protected array $arguments = [];
 
-    public function addArgument(string $name, mixed $value): void
+    public function addArgument(string $name, mixed $value): static
     {
         $this->arguments[$name] = $value;
+        return $this;
     }
 
     public function getArgument(string $name): mixed
