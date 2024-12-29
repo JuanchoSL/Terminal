@@ -6,7 +6,7 @@ namespace JuanchoSL\Terminal\Entities;
 
 use JuanchoSL\Terminal\Contracts\InputInterface;
 
-class Input implements InputInterface, \JsonSerializable
+class Input implements InputInterface
 {
 
     /**
@@ -34,5 +34,18 @@ class Input implements InputInterface, \JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->arguments;
+    }
+
+    public function __tostring(): string
+    {
+        $response = '';
+        foreach ($this->arguments as $name => $value) {
+            $value = (is_array($value)) ? implode(' ', $value) : $value;
+            if (!empty($response)) {
+                $response .= ' ';
+            }
+            $response .= $name . ' ' . $value;
+        }
+        return $response;
     }
 }

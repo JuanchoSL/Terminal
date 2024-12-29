@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JuanchoSL\Terminal\Contracts;
 
-interface InputInterface
+interface InputInterface extends \JsonSerializable, \Stringable
 {
     /**
      * Set a value for a parameter
