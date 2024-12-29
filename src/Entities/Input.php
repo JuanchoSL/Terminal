@@ -44,7 +44,7 @@ class Input implements InputInterface
             if (!empty($response)) {
                 $response .= ' ';
             }
-            $response .= $name . ' ' . $value;
+            $response .= '--' . $name . ' ' . $value;
         }
         return $response;
     }
