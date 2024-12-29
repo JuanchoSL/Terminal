@@ -144,7 +144,7 @@ abstract class Command implements CommandInterface
         $this->validate($input);
         $result = $this->execute($input);
         $this->log("Command: '{command}'", 'debug', [
-            'command' => implode(' ', $_SERVER['argv']),
+            'command' => $this->getName() . ' ' . (string) $input,
             'arguments' => $args,
             'input' => $input,
             'result' => $result,
