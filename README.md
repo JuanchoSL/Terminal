@@ -26,7 +26,7 @@ The name of the command, first argument to indicate the action to execute
 ```
 
 #### Configuration
-Declare the arguments, his name, if is required and the type of values, void if don't have, simple or multiple
+Declare the arguments, his name, if it is required and the quantity of values, void if don't have, simgle or multiple
 ```php
     protected function configure(): void
     {

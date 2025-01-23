@@ -52,7 +52,7 @@ class Console implements LoggerAwareInterface
     {
         $response = "Available commands:" . PHP_EOL;
         foreach (array_keys($this->commands) as $command) {
-            $response .= "- {$command}" . PHP_EOL;
+            $response .= "\t- {$command}" . PHP_EOL;
         }
         echo $response;
     }

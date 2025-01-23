@@ -10,6 +10,7 @@ use JuanchoSL\Terminal\Contracts\InputInterface;
 use JuanchoSL\Terminal\Entities\Input;
 use JuanchoSL\Terminal\Enums\InputArgument;
 use JuanchoSL\Terminal\Enums\InputOption;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerAwareTrait;
 
 abstract class Command implements CommandInterface
@@ -23,6 +24,13 @@ abstract class Command implements CommandInterface
      */
     protected array $arguments = [];
     protected bool $debug = false;
+    
+    protected ?ContainerInterface $context;
+
+    public function __construct(?ContainerInterface $context = null)
+    {
+        $this->context = $context;
+    }
 
     public function setDebug(bool $debug = false): static
     {
@@ -103,6 +111,10 @@ abstract class Command implements CommandInterface
         foreach ($this->arguments as $name => $argument) {
             if ($argument['argument'] == InputArgument::REQUIRED && !$vars->hasArgument($name)) {
                 $exception = new PreconditionRequiredException("The argument '{$name}' is missing");
+            } elseif ($argument['option'] == InputOption::SINGLE && $vars->hasArgument($name) && is_array($vars->getArgument($name)) && count($vars->getArgument($name)) > 1) {
+                $exception = new PreconditionRequiredException("The argument '{$name}' is a single parameter");
+            }
+            if (isset($exception)) {
                 $this->log($exception, 'error', [
                     'exception' => $exception,
                     'parameters' => $vars,
@@ -156,11 +168,11 @@ abstract class Command implements CommandInterface
 
     protected function help(): int
     {
-        $this->write(sprintf("Available arguments for %s:", $this->getName()));
+        $this->write(sprintf("Available arguments for '%s':", $this->getName()));
         foreach ($this->arguments as $name => $values) {
             $this->write(sprintf("- %s: %s, %s", $name, $values['argument']->value, $values['option']->value));
         }
-        $this->write(sprintf("Current working dir %s:", getcwd()));
+        $this->write(sprintf("Current working dir: %s", getcwd()));
         return 0;
     }
 

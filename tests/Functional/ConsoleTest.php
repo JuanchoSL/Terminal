@@ -1,6 +1,6 @@
 <?php
 
-namespace JuanchoSL\Terminal\Tests\Funtional;
+namespace JuanchoSL\Terminal\Tests\Functional;
 
 use JuanchoSL\Exceptions\DestinationUnreachableException;
 use JuanchoSL\Exceptions\PreconditionRequiredException;

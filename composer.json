@@ -20,7 +20,8 @@
         "php": "^7.1 || ^8.0",
         "ext-mbstring": "*",
         "juanchosl/exceptions": "^1.0",
-        "psr/log": "3.0.*"
+        "psr/log": "3.0.*",
+        "psr/container": "1.0.0"
     },
     "require-dev": {
         "juanchosl/logger": "^1.1",
