@@ -4,7 +4,6 @@
     "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/JuanchoSL/Terminal",
-    "minimum-stability": "stable",
     "keywords": [
         "command",
         "terminal"
@@ -19,8 +18,8 @@
     "require": {
         "php": "^7.1 || ^8.0",
         "ext-mbstring": "*",
-        "juanchosl/exceptions": "^1.0",
-        "juanchosl/datatransfer": "^1.0",
+        "juanchosl/exceptions": "1.0.*",
+        "juanchosl/datatransfer": "1.0.*",
         "psr/log": "3.0.*",
         "psr/container": "2.0.*"
     },
